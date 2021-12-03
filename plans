@@ -1,0 +1,31 @@
+import pandas as pd
+
+class Planilha:
+    def __init__(self):
+        self.planilha = pd.read_excel(r"C:\Users\knkmo\Desktop\planos.xlsx")
+        self.lista = (['litispendencia'], ['litispendência'], ['coisa julgada'], ['extinto'], ['prescrição'], ['prescricao'],
+                 ['reconhecida'], ['transcurso'], ['prazo prescricional'], ['extinção'], ['extincao'], ['acolho'],
+                 ['sem merito'])
+
+    def procura(self):
+        self.palavra_pesquisada = input(str('Digite o termo a ser pesquisado: '))
+
+    def planilha_litispendencia(self):
+        self.planilha_litispendencia = self.planilha.loc[self.planilha['TEXTO'].str.contains('|'.join(self.lista[0 and 1]))]
+        print('Casos que consta no TEXTO o termo {}: \n'.format(self.palavra_pesquisada), self.planilha_litispendencia)
+        for planilha_litispendencia in self.lista:
+            if self.palavra_pesquisada in planilha_litispendencia:
+                print("Consta a palavra '{}' na planilha e aparece {} vezes.\n".format(self.palavra_pesquisada, len(self.palavra_pesquisada)))
+                break
+            else:
+                print("Não existe o termo '{}' pesquisado, mas existe na planilha o termo {}.\n".format(self.palavra_pesquisada, self.lista[0 and 1]))
+                break
+
+    def extrair_para_excel(self):
+        self.planilha_litispendencia.to_excel('Planilha como termo litispendência.xlsx')
+
+
+litispendencia = Planilha()
+litispendencia.procura()
+litispendencia.planilha_litispendencia()
+litispendencia.extrair_para_excel()
